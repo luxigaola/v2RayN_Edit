@@ -1,5 +1,8 @@
 # v2RayN_Edit
 基于v2rayN4.32更改功能
+
+[v2rayN源地址](https://github.com/2dust/v2rayN)
+ 
 ### 功能变更
 - 添加测试服务器列表后，自动删除无用服务器功能。
 
