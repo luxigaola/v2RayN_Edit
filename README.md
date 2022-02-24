@@ -1,2 +1,2 @@
-# v2Ray_Edit
+# v2RayN_Edit
 基于v2rayN4.32更改功能
