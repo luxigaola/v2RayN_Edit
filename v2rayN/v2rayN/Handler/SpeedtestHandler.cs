@@ -12,6 +12,7 @@ namespace v2rayN.Handler
     class SpeedtestHandler
     {
         private Config _config;
+        private Boolean canAction = true;
         private V2rayHandler _v2rayHandler;
         private List<ServerTestItem> _selecteds;
         Action<int, string> _updateFunc;
@@ -83,7 +84,11 @@ namespace v2rayN.Handler
                 Task.Run(() =>
                 {
                     RunPing();
-                    action();
+                    if (canAction)
+                    {
+                        action();
+                    }
+                    canAction = true;
                 });
             }
             if (actionType == "tcping")
@@ -91,7 +96,11 @@ namespace v2rayN.Handler
                 Task.Run(() =>
                 {
                     RunTcping();
-                    action();
+                    if (canAction)
+                    {
+                        action();
+                    }
+                    canAction = true;
                 });
             }
             else if (actionType == "realping")
@@ -99,7 +108,11 @@ namespace v2rayN.Handler
                 Task.Run(() =>
                 {
                     RunRealPing();
-                    action();
+                    if (canAction)
+                    {
+                        action();
+                    }
+                    canAction = true;
                 });
             }
             else if (actionType == "speedtest")
@@ -107,8 +120,12 @@ namespace v2rayN.Handler
                 Task.Run(() =>
                 {
                     RunSpeedTest();
-                    action();
-                    selectFasterServer();
+                    if (canAction)
+                    {
+                        action();
+                        selectFasterServer();
+                    }
+                    canAction = true;
                 });
             }
         }
@@ -173,6 +190,8 @@ namespace v2rayN.Handler
                 pid = _v2rayHandler.LoadV2rayConfigString(_config, _selecteds);
                 if (pid < 0)
                 {
+                    //TestServer(ref pid);
+                    canAction = false;
                     _updateFunc(_selecteds[0].selected, UIRes.I18N("OperationFailed"));
                     return;
                 }
@@ -250,7 +269,22 @@ namespace v2rayN.Handler
                 return -1;
             }
         }
-
+        private void TestServer(ref int pid)
+        {
+            var list = new List<ServerTestItem>();
+            for (int i = 0; i < _selecteds.Count; i++)
+            {
+                var selected = _selecteds[i];
+                list.Add(selected);
+                pid = _v2rayHandler.LoadV2rayConfigString(_config, list);
+                if (pid < 0)
+                {
+                    _updateFunc(selected.selected, UIRes.I18N("OperationFailed"));
+                    _selecteds.Remove(selected);
+                }
+                list.Remove(selected);
+            }
+        }
         private void RunSpeedTest()
         {
             
@@ -264,6 +298,8 @@ namespace v2rayN.Handler
             pid = _v2rayHandler.LoadV2rayConfigString(_config, _selecteds);
             if (pid < 0)
             {
+                //TestServer(ref pid);
+                canAction = false;
                 _updateFunc(_selecteds[0].selected, UIRes.I18N("OperationFailed"));
                 return;
             }
