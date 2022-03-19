@@ -825,13 +825,13 @@
     <value>6, 59</value>
   </data>
   <data name="tsbSubSetting.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 26</value>
+    <value>224, 26</value>
   </data>
   <data name="tsbSubSetting.Text" xml:space="preserve">
     <value>Settings</value>
   </data>
   <data name="tsbSubUpdate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 26</value>
+    <value>224, 26</value>
   </data>
   <data name="tsbSubUpdate.Text" xml:space="preserve">
     <value>Updates</value>

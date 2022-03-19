@@ -416,6 +416,7 @@
             // 
             resources.ApplyResources(this.qrCodeControl, "qrCodeControl");
             this.qrCodeControl.Name = "qrCodeControl";
+            this.qrCodeControl.Load += new System.EventHandler(this.qrCodeControl_Load);
             // 
             // splitContainer1
             // 

@@ -740,13 +740,26 @@ namespace v2rayN.Handler
                     continue;
                 }
                 VmessItem vmessItem = ShareHandler.ImportFromClipboardConfig(str, out string msg);
+
+
                 if (vmessItem == null)
                 {
                     continue;
                 }
+                
                 vmessItem.subid = subid;
                 if (vmessItem.configType == (int)EConfigType.Vmess)
                 {
+                    //强制将传输层协议为tls的节点且传输协议为空的强制转为改为ws协议
+                    if (vmessItem.streamSecurity == "tls" && (string.IsNullOrEmpty(vmessItem.network) || vmessItem.network == "none"))
+                    {
+                        vmessItem.network = "ws";
+                    }
+                    //强制将传输层协议为空的节点且传输协议为空的强制转为改为tcp协议
+                    else if (string.IsNullOrEmpty(vmessItem.streamSecurity) && (string.IsNullOrEmpty(vmessItem.network) || vmessItem.network == "none"))
+                    {
+                        vmessItem.network = "tcp";
+                    }
                     if (AddServer(ref config, vmessItem, -1, false) == 0)
                     {
                         countServers++;

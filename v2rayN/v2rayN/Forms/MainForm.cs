@@ -1605,5 +1605,10 @@ namespace v2rayN.Forms
            
         }
         #endregion
+
+        private void qrCodeControl_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
